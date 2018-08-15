@@ -40,8 +40,9 @@ COPY . ${HIVEMALL_PATH}/
 RUN set -eux && \
     apt update && \
     apt install -y --no-install-recommends openssh-server maven g++ make ruby npm && \
-    ln -s /usr/bin/nodejs /usr/bin/node && \
-    npm install -g gitbook-cli && \
+    ln -s /usr/bin/nodejs /usr/bin/node
+
+RUN npm install -g gitbook-cli && \
     \
     wget ${BASE_URL}hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz -O - \
       | tar xz && \
@@ -51,16 +52,16 @@ RUN set -eux && \
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys && \
     echo 'host *\n  StrictHostKeyChecking no' > ~/.ssh/config && \
     mv ${HIVEMALL_PATH}/resources/docker/etc/hadoop/*.xml ${HADOOP_HOME}/etc/hadoop && \
-    hdfs namenode -format && \
-    \
-    wget ${BASE_URL}hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz -O - \
+    hdfs namenode -format
+
+RUN wget ${BASE_URL}hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz -O - \
       | tar xz && \
     mv apache-hive-${HIVE_VERSION}-bin ${HIVE_HOME} && \
     cat ${HIVE_HOME}/conf/hive-default.xml.template \
       | sed -e 's!databaseName=metastore_db!databaseName=/root/metastore_db!' \
-      > ${HIVE_HOME}/conf/hive-site.xml && \
-    \
-    cd ${HIVEMALL_PATH} && \
+      > ${HIVE_HOME}/conf/hive-site.xml
+
+RUN cd ${HIVEMALL_PATH} && \
     HIVEMALL_VERSION=`cat VERSION` && \
     \
     (if ${PREBUILD}; then \
