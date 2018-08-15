@@ -22,8 +22,8 @@ FROM openjdk:7
 WORKDIR /root/
 
 ARG PREBUILD=true
-ARG HADOOP_VERSION=2.7.3
-ARG HIVE_VERSION=2.1.1
+ARG HADOOP_VERSION=2.7.7
+ARG HIVE_VERSION=2.3.3
 
 ENV BASE_URL='https://www.apache.org/dyn/mirrors/mirrors.cgi?action=download&filename='
 ENV HADOOP_HOME='/usr/local/hadoop'
